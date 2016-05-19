@@ -22,25 +22,18 @@ public class Material {
 		this.name = name;
 	}
 
-
-
 	public int getCompanyID() {
 		return companyID;
 	}
-
-
 
 	public void setCompanyID(int companyID) {
 		this.companyID = companyID;
 	}
 
-
 	@JsonProperty("ID")
 	public int getID() {
 		return ID;
 	}
-
-
 
 	public void setID(int id) {
 		this.ID = id;

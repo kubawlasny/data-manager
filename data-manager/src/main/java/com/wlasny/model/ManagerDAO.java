@@ -1,15 +1,15 @@
+/**
+ * ManagerDAO.java - data access object responsible for retrieving data from REST web service
+ */
 package com.wlasny.model;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 
 public class ManagerDAO {
 	
@@ -27,7 +26,6 @@ public class ManagerDAO {
 	private List<Company> companies;
 	private List<Material> materials;
 	private List<MaterialDetails> details = new ArrayList<MaterialDetails>();
-	//private MaterialDetails details;
 	
 	// DAO constructor - 
 	private ManagerDAO() throws JsonParseException, JsonMappingException, MalformedURLException, IOException{
@@ -36,6 +34,7 @@ public class ManagerDAO {
 		retrieveMaterialDetails();
 	}
 	
+	// Singleton pattern - one and only instance of DAO can be retrieved with following method
 	public static ManagerDAO getInstance() throws JsonParseException, JsonMappingException, MalformedURLException, IOException {
 		if (instance == null) {
 		instance = new ManagerDAO();
@@ -71,24 +70,31 @@ public class ManagerDAO {
 		materials = response.getBody();
 	}
 	
-	// TODO: download details of a specific material
+	// Retrieve details of all materials and save as objects
 	private void retrieveMaterialDetails() throws JsonParseException, JsonMappingException, MalformedURLException, IOException{
-		
-			
 
 		//JSON from URL to Object
-		
 		for (int i = 1; i <= materials.size(); i++) {
 			ObjectMapper mapper = new ObjectMapper();
 			MaterialDetails obj = mapper.readValue(new URL("http://193.142.112.220:8337/materialDetails?ID="+i), MaterialDetails.class);
 			details.add(obj);
-			
-			//System.out.println(obj);
-			//obj.toString();
 		}
-		
-		
-		
+	}
+	
+	// Method used for persistence of material details while the application is running
+	public void setMaterialDetails(int id, String name, String description, String notes, String supplier, String price, String currency) {
+		this.details.get(id).setName(name);
+		this.details.get(id).setDescription(description);
+		this.details.get(id).setNotes(notes);
+		this.details.get(id).setSupplier(supplier);
+		this.details.get(id).setPrice(price);
+		this.details.get(id).setCurrency(currency);
+	}
+	
+	// Restoring material details at user's request
+	public void restoreDetails() throws JsonParseException, JsonMappingException, MalformedURLException, IOException {
+		details.clear();
+		retrieveMaterialDetails();
 	}
 	
 	// Companies list getter
@@ -100,7 +106,7 @@ public class ManagerDAO {
 	public List<Material> getMaterials() {
 		return materials;
 	}
-	// Return material details
+	// Material details list getter
 	public List<MaterialDetails> getDetails() {
 		return details;}
 }

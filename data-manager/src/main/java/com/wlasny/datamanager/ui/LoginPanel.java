@@ -11,12 +11,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
  
 public class LoginPanel extends JPanel {
-    private JTextField nameField; //user name field
+    
+	private JTextField nameField; //user name field
     private JPasswordField passField; //password field
     private JButton loginButton;
-    private LoginListener listener; //action listener for log in button
+    private LoginListener listener; //action listener for "Log in" button
  
     //Returns user name inserted in nameField
     public String getName() {
@@ -43,32 +45,42 @@ public class LoginPanel extends JPanel {
  
     //Creation of log in form
     private void createComponents() {
-        JLabel name = new JLabel("Name: ");
+    	//Container for all login form elements
+    	JPanel loginPanel = new JPanel();
+    	loginPanel.setLayout(new BorderLayout());
+    	
+    	JLabel loginLabel = new JLabel("Please log in to see company data");
+    	loginPanel.add(loginLabel, BorderLayout.NORTH);
+    	
+    	JLabel name = new JLabel("Name: ");
         JLabel password = new JLabel("Password: ");
         nameField = new JTextField();
         passField = new JPasswordField();
         
+        //Container for login form fields and labels
         JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new GridLayout(2, 2));
+        inputPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
+        inputPanel.setLayout(new GridLayout(2, 2, 10, 5));
         inputPanel.add(name);
         inputPanel.add(nameField);
         inputPanel.add(password);
         inputPanel.add(passField);
         
+        loginPanel.add(inputPanel, BorderLayout.CENTER);
+        
+        //"Log in" button
         loginButton = new JButton("Log in");
         loginButton.addActionListener(listener);
- 
-        JPanel parentPanel = new JPanel();
-        parentPanel.setLayout(new BorderLayout());
-        parentPanel.add(inputPanel, BorderLayout.CENTER);
-        parentPanel.add(loginButton, BorderLayout.SOUTH);
+        loginPanel.add(loginButton, BorderLayout.SOUTH);
+        
+        loginPanel.setBorder(new EmptyBorder(230, 10, 0, 0));
         
         //Adding form panel to parent - LoginPanel 
-        this.add(parentPanel);
+        this.add(loginPanel);
     }
     
     /*
-     * Validation data -- temporary solution
+     * Login data validation -- temporary solution
      * */
     private static final String _name = "user";
     private static final String _password = "pass";
@@ -77,7 +89,7 @@ public class LoginPanel extends JPanel {
         if(_name.equals(name) & _password.equals(password))
             return true;
         else
-        	
+        	//Providing wrong login data toggles message dialog
         	JOptionPane.showMessageDialog(loginPanel, new JLabel("Wrong user name or password!"),"Error", JOptionPane.ERROR_MESSAGE);
             return false;
     }

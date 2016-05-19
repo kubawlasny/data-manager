@@ -1,3 +1,7 @@
+/*
+ * Material - model for materials instances retrieved from REST web service 
+ * */
+
 package com.wlasny.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

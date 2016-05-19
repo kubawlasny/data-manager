@@ -1,7 +1,10 @@
+/**
+ * MaterialsPanel.java - container for materials list of given company
+ */
 package com.wlasny.datamanager.ui;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import java.awt.Color;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -12,7 +15,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
-import com.wlasny.model.Company;
 import com.wlasny.model.ManagerDAO;
 import com.wlasny.model.Material;
 
@@ -40,9 +42,12 @@ public class MaterialsPanel extends JPanel {
 
 	private void addMaterials() {
 		
+		setLayout(new BorderLayout());
+		
 		// Label for the section
-		JLabel materialsLabel = new JLabel("Materials of the chosen company");
-		add(materialsLabel);
+		JLabel materialsLabel = new JLabel("Materials of chosen company");
+		materialsLabel.setHorizontalAlignment(JLabel.CENTER);
+		add(materialsLabel, BorderLayout.NORTH);
 	
 		// Table columns definition
 		String columnNames[] = { "Name", "ID", "CompanyID"};
@@ -77,20 +82,20 @@ public class MaterialsPanel extends JPanel {
 		final JTable table = new JTable(tableModel);
 		table.setCellSelectionEnabled(true);
 		
+		// Action listener for selection of a material
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {
-	            // do some actions here, for example
-	            // print first column value from selected row
-	            //System.out.println(table.getValueAt(table.getSelectedRow(), 1).toString());
 	            
 	            content.remove(2);
-	            content.add(new DetailsPanel(table.getValueAt(table.getSelectedRow(), 1).toString(), dao), 2);
+	            // Material ID is passed as a parameter 
+	            content.add(new DetailsPanel(table.getValueAt(table.getSelectedRow(), 1).toString(), dao, content), 2);
 	            content.validate();
 	        }
 	        
 	    });
 		
 		JScrollPane scrollPane = new JScrollPane(table);
-		add(scrollPane);
+		scrollPane.getViewport().setBackground(Color.WHITE);
+		add(scrollPane, BorderLayout.CENTER);
 	}
 }

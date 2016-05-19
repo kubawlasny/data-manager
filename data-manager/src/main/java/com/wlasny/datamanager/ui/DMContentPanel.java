@@ -1,14 +1,15 @@
+/**
+ * DMContentPanel.java - container for all the GUI elements + handling user actions
+ */
 package com.wlasny.datamanager.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -16,7 +17,6 @@ import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -29,22 +29,21 @@ public class DMContentPanel extends JPanel {
 		
 		setLayout(new BorderLayout());
 		
-		
-		//JLabel title = new JLabel("Data manager");
-		//add(title, BorderLayout.NORTH);
-		
+		//Container for three main sections of the screen
 		final JPanel content = new JPanel();
 		content.setLayout(new GridLayout(3, 1));
-
 		
 		/*
 		 * First section - list of all companies
 		 * */
+		
 		JPanel companiesPanel = new JPanel();
+		companiesPanel.setLayout(new BorderLayout());
 		
 		// Label for the section
 		JLabel companiesLabel = new JLabel("Companies (select one to see materials)");
-		companiesPanel.add(companiesLabel);
+		companiesLabel.setHorizontalAlignment(JLabel.CENTER);
+		companiesPanel.add(companiesLabel, BorderLayout.NORTH);
 		
 		// Table columns definition
 		String columnNames[] = { "Name", "CompanyID"};
@@ -73,16 +72,16 @@ public class DMContentPanel extends JPanel {
 
 			}
 		
+		// Creating table for Companies
 		final JTable table = new JTable(tableModel);
 		table.setCellSelectionEnabled(true);
 		
+		// Action listener for selection of a Company
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {
-	            // do some actions here, for example
-	            // print first column value from selected row
-	            //System.out.println(table.getValueAt(table.getSelectedRow(), 1).toString());
-	            
+	        	// Removing previous version of material list panel 
 	            content.remove(1);
+	            // Adding new one according to the chosen row of the table, companyID passed as a parameter
 	            content.add(new MaterialsPanel(table.getValueAt(table.getSelectedRow(), 1).toString(), dao, content), 1);
 	            content.remove(2);
 	            content.add(new DetailsPanel(),2);
@@ -91,10 +90,10 @@ public class DMContentPanel extends JPanel {
 	        
 	    });
 		
-		
-		
+		// Adding table to scrollPane
 		JScrollPane scrollPane = new JScrollPane(table);
-		companiesPanel.add(scrollPane);
+		scrollPane.getViewport().setBackground(Color.WHITE);
+		companiesPanel.add(scrollPane, BorderLayout.CENTER);
 		
 		content.add(companiesPanel,0);
 
@@ -112,14 +111,8 @@ public class DMContentPanel extends JPanel {
 		JPanel detailsPanel = new DetailsPanel();
 		content.add(detailsPanel,2);
 		
-		
-		add( content, BorderLayout.CENTER );
-
-		//Panel for buttons
-		JPanel buttons = new JPanel();
-		JButton button = new JButton("Test");
-		buttons.add(button);
-		add(buttons, BorderLayout.SOUTH);
+		// Adding content to parent panel
+		add(content, BorderLayout.CENTER );
 
 	}
 		

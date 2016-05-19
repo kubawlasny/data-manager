@@ -1,3 +1,7 @@
+/**
+ * AppFrame.java - main container of the GUI
+ */
+
 package com.wlasny.datamanager.ui;
 
 import java.awt.BorderLayout;
@@ -10,21 +14,25 @@ import javax.swing.JPanel;
 
 
 public class AppFrame extends JFrame {
+	
 	public AppFrame() {
-		// TODO: move to spring?
-		super("Data manager");
-
-		setLayout(new BorderLayout());
 		
-		setPreferredSize(new Dimension(600, 700));
+		super("Data manager");
+		
+		//Frame properties	
+		setPreferredSize(new Dimension(600, 600));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
+		
+		//Action listener for login handling
 		LoginListener listener = new LoginListener(this);
+		
+		//First screen of the application - user authorization
 		JPanel loginPanel = new LoginPanel(listener);
-        add(loginPanel, BorderLayout.CENTER);
+        add(loginPanel);
 
 		
 	}

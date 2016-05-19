@@ -1,3 +1,7 @@
+/**
+ * LoginListener.java - action listener for handling user log in
+ */
+
 package com.wlasny.datamanager.ui;
 
 import java.awt.event.ActionEvent;
