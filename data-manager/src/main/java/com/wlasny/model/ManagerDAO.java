@@ -3,6 +3,7 @@ package com.wlasny.model;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -101,12 +102,5 @@ public class ManagerDAO {
 	}
 	// Return material details
 	public List<MaterialDetails> getDetails() {
-		return details;
-	}
-	
-
-	
-
-
-
+		return details;}
 }
