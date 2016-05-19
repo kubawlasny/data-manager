@@ -30,11 +30,11 @@ public class DMContentPanel extends JPanel {
 		setLayout(new BorderLayout());
 		
 		
-		JLabel title = new JLabel("Data manager");
-		add(title, BorderLayout.NORTH);
+		//JLabel title = new JLabel("Data manager");
+		//add(title, BorderLayout.NORTH);
 		
 		final JPanel content = new JPanel();
-		content.setLayout(new GridLayout(5, 1));
+		content.setLayout(new GridLayout(3, 1));
 
 		
 		/*
@@ -43,7 +43,7 @@ public class DMContentPanel extends JPanel {
 		JPanel companiesPanel = new JPanel();
 		
 		// Label for the section
-		JLabel companiesLabel = new JLabel("Companies (select one to see matrials)");
+		JLabel companiesLabel = new JLabel("Companies (select one to see materials)");
 		companiesPanel.add(companiesLabel);
 		
 		// Table columns definition
@@ -83,7 +83,9 @@ public class DMContentPanel extends JPanel {
 	            //System.out.println(table.getValueAt(table.getSelectedRow(), 1).toString());
 	            
 	            content.remove(1);
-	            content.add(new ProductsPanel(table.getValueAt(table.getSelectedRow(), 1).toString(), dao), 1);
+	            content.add(new MaterialsPanel(table.getValueAt(table.getSelectedRow(), 1).toString(), dao, content), 1);
+	            content.remove(2);
+	            content.add(new DetailsPanel(),2);
 	            content.validate();
 	        }
 	        
@@ -98,16 +100,21 @@ public class DMContentPanel extends JPanel {
 
 		
 		/*
-		 * Second section - list of all products by company ID
+		 * Second section - list of all materials by company ID
 		 * */
-		JPanel productsPanel = new ProductsPanel();
-		content.add(productsPanel,1);
+		JPanel materialsPanel = new MaterialsPanel();
+		content.add(materialsPanel,1);
+		
+		
+		/*
+		 * Third section - details of chosen material
+		 * */
+		JPanel detailsPanel = new DetailsPanel();
+		content.add(detailsPanel,2);
 		
 		
 		add( content, BorderLayout.CENTER );
-		
-		
-		
+
 		//Panel for buttons
 		JPanel buttons = new JPanel();
 		JButton button = new JButton("Test");

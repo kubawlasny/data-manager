@@ -8,36 +8,40 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import com.wlasny.model.Company;
 import com.wlasny.model.ManagerDAO;
 import com.wlasny.model.Material;
 
-public class ProductsPanel extends JPanel {
+public class MaterialsPanel extends JPanel {
 	
 	private int companyID;
 	private ManagerDAO dao;
+	private JPanel content;
 	
-	public ProductsPanel( ){
+	public MaterialsPanel( ){
 		
-		JLabel title = new JLabel("Materials");
+		JLabel title = new JLabel("Materials (select a company to see the list)");
 		add(title);
 		
 	}
 	
-	public ProductsPanel(String companyID, ManagerDAO dao) {
+	public MaterialsPanel(String companyID, ManagerDAO dao, JPanel content) {
 		
 		this.companyID = Integer.parseInt(companyID);
 		this.dao = dao;
-		addProducts();
+		this.content = content;
+		addMaterials();
 		
 	}
 
-	private void addProducts() {
+	private void addMaterials() {
 		
 		// Label for the section
-		JLabel materialsLabel = new JLabel("Materials (select one to see details)");
+		JLabel materialsLabel = new JLabel("Materials of the chosen company");
 		add(materialsLabel);
 	
 		// Table columns definition
@@ -72,6 +76,19 @@ public class ProductsPanel extends JPanel {
 		
 		final JTable table = new JTable(tableModel);
 		table.setCellSelectionEnabled(true);
+		
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent event) {
+	            // do some actions here, for example
+	            // print first column value from selected row
+	            //System.out.println(table.getValueAt(table.getSelectedRow(), 1).toString());
+	            
+	            content.remove(2);
+	            content.add(new DetailsPanel(table.getValueAt(table.getSelectedRow(), 1).toString(), dao), 2);
+	            content.validate();
+	        }
+	        
+	    });
 		
 		JScrollPane scrollPane = new JScrollPane(table);
 		add(scrollPane);
