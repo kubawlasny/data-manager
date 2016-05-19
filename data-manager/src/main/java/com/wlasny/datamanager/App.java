@@ -5,6 +5,7 @@
 
 package com.wlasny.datamanager;
 
+import java.awt.EventQueue;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.wlasny.datamanager.ui.AppFrame;
 import com.wlasny.model.Company;
 import com.wlasny.model.ManagerDAO;
 import com.wlasny.model.Material;
@@ -34,11 +36,9 @@ public class App
     	 * - authorization screen
     	 * */
     	
-
-    	
     	//DAO initialization
     	
-    	ManagerDAO dao = new ManagerDAO();
+    	ManagerDAO dao = ManagerDAO.getInstance();
     	
     	List<Company> companies = dao.getCompanies();
     	
@@ -52,12 +52,24 @@ public class App
 		System.out.println(mat.toString());
 		}
     	
-    	MaterialDetails details = dao.getDetails();
-    	System.out.println(details.toString());
+    	List<MaterialDetails> details = dao.getDetails();
+    	//System.out.println(details.get(0).toString());
+    	//System.out.println(details.toString());
+    	for(MaterialDetails md : details) {
+    		System.out.println(md.toString());
+    		}
+    	
+    	//Frame initialization
+    	EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new AppFrame();
+            }
+        });
     	
     	
     	
-    	ApplicationContext context = new ClassPathXmlApplicationContext("app-context.xml");
+    	
+    	//ApplicationContext context = new ClassPathXmlApplicationContext("app-context.xml");
     	
     	
     	
