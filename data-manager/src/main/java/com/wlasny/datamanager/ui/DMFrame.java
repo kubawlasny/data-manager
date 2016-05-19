@@ -1,21 +1,14 @@
-package com.wlasny.datamanager.ui;
-
-import java.awt.Dimension;
-import java.awt.Frame;
-
-import javax.swing.JFrame;
-
-
 /*
  * DMFrame is a container for components of the GUI
  * 
  */
 
+package com.wlasny.datamanager.ui;
+
+import java.awt.Frame;
+import javax.swing.JFrame;
 
 public class DMFrame extends JFrame{
-	
-	
-	
 	
 	
 	public void init(){

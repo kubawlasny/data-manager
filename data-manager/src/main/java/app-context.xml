@@ -48,10 +48,10 @@
   	<bean id="itemList" class="java.util.ArrayList">
   		<constructor-arg>
   			<list>
-  				<!-- <value>Company 1</value>
+  				<value>Company 1</value>
   				<value>Company 2</value>
   				<value>Company 3</value>
-  				<value>Company 4</value> -->
+  				<value>Company 4</value>
   			</list>
   		</constructor-arg>
   	</bean>

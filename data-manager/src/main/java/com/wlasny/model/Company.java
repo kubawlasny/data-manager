@@ -24,9 +24,10 @@ public class Company {
 		this.companyID = companyID;
 	}
 	
+	// Test method for printing company info in Console
 	@Override
     public String toString() {
-        return "Company " + companyName + ", ID: " + companyID;
+        return "Company: " + companyName + ", ID: " + companyID;
     }	
 	
 }
